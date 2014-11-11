@@ -4,7 +4,7 @@ window.onload = function() {
   var socket = io.connect('http://localhost');
   var field = document.getElementById("field");
   var send = document.getElementById("send");
-  var content = document.getElementById("content")
+  var content = document.getElementById("chat")
 
   socket.on('message', function (data) {
     if (data.message) {
@@ -21,6 +21,16 @@ window.onload = function() {
       console.log("Something went wrong ...");
     }
   });
+
+  field.onkeypress = function (e) {
+    if (!e)
+      e = window.event;
+    if (e.keyCode == '13') {
+        socket.emit('send', { message: this.value });
+        this.value = "";
+        return false;
+    }
+  }
 
   send.onclick = function () {
     var text = field.value;

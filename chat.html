@@ -1,16 +1,21 @@
 <html>
   <head>
     <title>Super chat</title>
-    <script src="/chat.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
-
+    <link rel="stylesheet" href="/chat.css">
   </head>
   <body>
+    <div class="container">
 
-    <input type="text" id="field">
-    <input type="button" id="send" value="Send">
+      <h1>Super awesome chat</h1>
 
-    <div id="content"></div>
+      <div id="chat"></div>
+      <div class="bottom">
+        <input type="text" id="field" placeholder="Type something ..." onkeypress="sendMessage(event)">
+        <input type="button" id="send" value="Click here or press enter to send!">
+      </div>
+    </div>
 
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/chat.js"></script>
   </body>
 </html>

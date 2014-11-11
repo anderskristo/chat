@@ -1,0 +1,60 @@
+body {
+  margin: 0;
+  background-color: #f5f5f5;
+  font-family: 'Helvetica', sans-serif;
+}
+
+.container {
+  width: 600px;
+  margin: 0 auto;
+}
+
+h1 {
+  padding: 35px;
+  margin: 0;
+  background-color: #e83f3f;
+  color: #FFF;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+#chat {
+  padding: 20px;
+  height: 300px;
+  overflow-y: scroll;
+  background-color: #fff;
+}
+
+.bottom {
+  border-top: 2px solid #E83F3F;
+}
+
+#field {
+  padding: 20px;
+  border: 0;
+  color: #2222;
+  font-size: 17px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+#field:focus,
+#send:focus {
+  outline: 0;
+}
+
+#send {
+  padding: 20px;
+  border: 0;
+  color: #fff;
+  background-color: #72fd6e;
+  font-size: 17px;
+  width: 100%;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: all, 0.3s, ease;
+}
+
+#send:hover {
+  background-color: #2dad26;
+}
