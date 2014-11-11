@@ -1,0 +1,10 @@
+{
+  "name": "Chat",
+  "version": "0.0.0",
+  "author": "anderskristo",
+  "description": "Simple chat with node.js socket.io and express",
+  "dependencies": {
+    "socket.io": "latest",
+    "express": "latest"    
+  }
+}
