@@ -1,16 +1,14 @@
 $(function() {
 
   var messages = [];
-  var socket = io.connect('http://192.168.1.105/');
-  var field = document.getElementById("field");
-  var send = document.getElementById("send");
-  var content = document.getElementById("chat")
-  var userInput = document.getElementById("username")
-  var username;  
-
+  var socket = io.connect();
+  var field = $('#field');
+  var content = $('#chat');
+  var userInput = $('#username');
+  var username;
 
   function setUsername () {
-    username = userInput.value;
+    username = userInput.val();
     if (username) {
       socket.emit('add user', username);
       $('.board').show();
@@ -18,11 +16,21 @@ $(function() {
     }
   }
 
+  function usersOnline (data) {
+    var message = '';
+    if (data.users === 1) {
+      message += "<span class=\"chat-message\">There's only 1 user currently online</span>";
+    } else {
+      message +="<span class=\"chat-message\">There are currently " + data.users + ' users online</span>';
+    }
+    content.append(message);
+  }
+
   function sendMessage () {
-    var message = field.value;
+    var message = field.val();
 
     if (message) {
-      field.value = "";
+      field.val('');
       addMessage({
         username: username,
         message: message
@@ -32,18 +40,25 @@ $(function() {
   }
 
   function addMessage (data) {
-    if (data) {
-      messages.push(data);
+    if (data.message) {
+      var usernameElem = '<span class="user">' + data.username + ':</span>';
+      var messageElem = '<span class="message">' + data.message + '</span>';
+      var contentElem = $('<li>').append(usernameElem, messageElem);
 
-      var html = '';
-      for (var i = 0; i < messages.length; i++) {
-        html += '<span class="user">' + messages[i].username + '</span>: ' + '<span class="message">' + messages[i].message + '</span><br />';
-      }
-      content.innerHTML = html;
-    } else {
-      console.log("Something went wrong");
+      addChatElement(contentElem);
     }
   }
+
+  function addChatElement (elem) {
+    var elem = $(elem).fadeIn(200);
+    content.append(elem);
+    content[0].scrollTop = content[0].scrollHeight;
+  }
+
+  socket.on('login', function (data) {
+    connected = true;
+    usersOnline(data);
+  });
 
   socket.on('new message', function (data) {
     addMessage(data);
@@ -53,31 +68,33 @@ $(function() {
     console.log(data.username + ' is now connected');
     var html = '';
     html += data.username + ' joined<br />';
-    content.innerHTML = html;
+    content.append(html);
   });
 
-  field.onkeypress = function (e) {
+  socket.on('user left', function (data) {
+    console.log(data.username + ' left');
+    var html = '';
+    html += data.username + ' left<br />';
+    content.append(html);
+  });
+
+  field.keypress(function (e) {
     if (!e)
       e = window.event;
-    if (e.keyCode == '13') {
-        sendMessage();
-        return false;
+    if(e.which == 13) {
+      sendMessage();
+      return false;
     }
-  }
+  });
 
-  userInput.onkeypress = function (e) {
+  userInput.keypress(function (e) {
     if (!e)
       e = window.event;
-    if (e.keyCode == '13') {
-        setUsername();
-        socket.emit('user joined', username);
-        return false;
+    if(e.which == 13) {
+      setUsername();
+      socket.emit('user joined', username);
+      return false;
     }
-  }
-
-  send.onclick = function () {
-    var text = field.value;
-    socket.emit('send', { message: text });
-  }
+  });
 
 });

@@ -12,6 +12,7 @@ app.get('/', function (req, res) {
 app.use(express.static(__dirname + '/assets'));
 
 var usernames = {};
+var users = 0;
 
 io.on('connection', function (socket) {
   var addedUser = false;
@@ -26,11 +27,29 @@ io.on('connection', function (socket) {
   socket.on('add user', function (username) {
     socket.username = username;
     usernames[username] = username;
+    ++users;
     addedUser = true;
 
-    socket.broadcast.emit('user joined', {
-      username: socket.username
+    socket.emit('login', {
+      users: users
     });
+
+    socket.broadcast.emit('user joined', {
+      username: socket.username,
+      users: users
+    });
+  });
+
+  socket.on('disconnect', function () {
+    if (addedUser) {
+      delete usernames[socket.username];
+      --users;
+
+      socket.broadcast.emit('user left', {
+        username: socket.username,
+        users: users        
+      });
+    }
   });
 
 });

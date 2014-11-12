@@ -1,7 +1,7 @@
 body {
   margin: 0;
   background-color: #f5f5f5;
-  font-family: 'Helvetica', sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .container {
@@ -37,12 +37,26 @@ h1 {
   background-color: #fff;
 }
 
+#chat li {
+  list-style: none;
+  font-size: 20px;
+}
+
 #chat .user {
   color: #e83f3f;
+  font-weight: bold;
 }
 
 #chat .message {
-  padding-right: 15px;
+  padding-left: 15px;
+  font-weight: 100;
+}
+
+#chat .chat-message {
+  margin-bottom: 10px;
+  text-align: center;
+  display: block;
+  color: #868484;
 }
 
 .bottom {
@@ -59,23 +73,6 @@ h1 {
 }
 
 #username:focus,
-#field:focus,
-#send:focus {
+#field:focus {
   outline: 0;
-}
-
-#send {
-  padding: 20px;
-  border: 0;
-  color: #fff;
-  background-color: #72fd6e;
-  font-size: 17px;
-  width: 100%;
-  cursor: pointer;
-  box-sizing: border-box;
-  transition: all, 0.3s, ease;
-}
-
-#send:hover {
-  background-color: #2dad26;
 }
