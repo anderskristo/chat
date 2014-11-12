@@ -11,9 +11,26 @@ app.get('/', function (req, res) {
 
 app.use(express.static(__dirname + '/assets'));
 
+var usernames = {};
+
 io.on('connection', function (socket) {
-  socket.emit('message', { message: "Welcome to this awesome chat" });
-  socket.on('send', function (data) {
-    io.emit('message', data)
+  var addedUser = false;
+
+  socket.on('new message', function (data) {
+    socket.broadcast.emit('new message', {
+      username: socket.username,
+      message: data
+    });
   });
+
+  socket.on('add user', function (username) {
+    socket.username = username;
+    usernames[username] = username;
+    addedUser = true;
+
+    socket.broadcast.emit('user joined', {
+      username: socket.username
+    });
+  });
+
 });

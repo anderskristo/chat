@@ -18,11 +18,31 @@ h1 {
   text-transform: uppercase;
 }
 
+#username {
+  padding: 20px;
+  border: 0;
+  color: #2222;
+  font-size: 17px;
+  width: 100%;
+}
+
+.board {
+  display: none;
+}
+
 #chat {
   padding: 20px;
   height: 300px;
   overflow-y: scroll;
   background-color: #fff;
+}
+
+#chat .user {
+  color: #e83f3f;
+}
+
+#chat .message {
+  padding-right: 15px;
 }
 
 .bottom {
@@ -38,6 +58,7 @@ h1 {
   box-sizing: border-box;
 }
 
+#username:focus,
 #field:focus,
 #send:focus {
   outline: 0;
