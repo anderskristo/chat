@@ -76,3 +76,7 @@ h1 {
 #field:focus {
   outline: 0;
 }
+
+.social {
+  margin-top: 40px;
+}
